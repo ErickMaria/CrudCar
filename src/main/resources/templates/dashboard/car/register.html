@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/layout">
+    
+<head>
+	<title>Car Sale - Dashboard - register</title>
+</head>
+<body>
+	
+	<!-- container -->
+	<div layout:fragment="content">
+		
+		<!-- row -->
+		<div class="row">
+			<!-- col -->
+			<div class=" col-12">
+				<form class="form" method="POST" enctype="multipart/form-data"
+					th:object="${car}" th:action="@{/dashboard/car/save}" >
+					
+					<!-- fieldset -->
+					<fieldset>
+						<!-- row -->
+						<div class="row">
+							<div class="col-6">
+								<!-- legend -->
+								<legend>Register Car</legend><!-- end legend -->
+							</div><!-- end col -->
+							
+							<!-- col -->
+							<div class="col-6">
+								<!-- div alert success -->
+								<div class="alert alert-success alert-dismissible fade show" role="alert"
+									th:if="${!#strings.isEmpty(message)}">
+									
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								  
+								  <span th:text="${message}"></span>
+								</div><!-- end div alert success -->
+								
+								<!-- div alert danger -->
+								<div class="alert alert-danger alert-dismissible fade show" role="alert" 
+									th:if="${#fields.hasAnyErrors()}">
+									
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								  
+								  <div th:each="erro: ${#fields.detailedErrors()}">
+								  	
+								  	<span th:text="${erro.message}"></span>
+								  </div>
+								</div><!-- end div alert danger -->
+							</div><!-- end col -->
+						</div><!-- end row -->
+						
+						<div class="form-group">
+							<label for="model">Model</label>
+							<input type="text" id="model" class="form-input"
+								th:field="*{model}"/>
+						</div>
+						
+						<div class="form-group">
+							<label for="image">Image</label>
+							<input type="file" id="imageFile" name="imageFile" class="form-input"/>
+						</div>
+						
+						<div class="form-group">
+							<label for="carmaker">Carmaker</label>
+							<select id="carmaker" class="form-input"
+								th:field="*{carmaker}">
+								<option value="">select a carmaker</option>
+								<option 
+									th:each="carmaker: ${carmakers}"
+									th:value="${carmaker}"
+									th:text="#{|Carmaker.${carmaker}|}">
+								</option>
+							</select>
+						</div>
+						
+						<div class="form-group">
+							<label for="price">Price</label>
+							<input type="text" id="price" class="form-input js-field-coin"
+								th:field="*{price}"/>
+						</div>
+						
+						<div class="form-group">
+							<label for="quantity">Quantity</label>
+							<input type="text" id="quantity" class="form-input js-field-coin"
+								th:field="*{quantity}"/>
+						</div>
+						
+						<button type="submit" class="btn btn-success">save</button>
+						
+					</fieldset><!-- end fieldset -->
+				</form>
+			</div><!-- end col -->
+		</div><!-- end row -->
+		
+	</div> <!-- end container -->
+	
+</body>
+</html>

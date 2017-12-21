@@ -1,0 +1,37 @@
+.bg-green:hover{
+	color: #fff;
+}
+
+nav > a{
+	font-size: 20px;
+}
+
+nav > a:link{
+	text-decoration: none;
+}
+
+.form-input{
+	display: block;
+  	width: 100%;
+  	padding: 0.375rem 0.75rem;
+  	font-size: 1rem;
+  	line-height: 1.5;
+  	color: #495057;
+  	background-color: #fff;
+  	background-clip: padding-box;
+ 	border: 1px solid #ced4da;
+  	border-radius: 5px 0 0 5px;
+  	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.form-input:focus {
+	color: #495057;
+	background-color: #fff;
+	border-color: #80bdff;
+	outline: 0;
+	box-shadow: 0 0 0 1.5px rgba(111, 111, 111, 111);
+}
+
+.form-input::-webkit-input-placeholder {
+  color: #1f1f1;
+  opacity: 1;
+}

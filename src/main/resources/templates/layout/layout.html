@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<!-- Bootsstrap css 4.0.0 beta 2 -->
+	<link rel="stylesheet" type="text/css" th:href="@{\vendors\bootstrap\bootstrap.css}"/>	
+	<!-- Sidebar -->
+	<link rel="stylesheet" type="text/css" th:href="@{\stylesheets\sidebar.css}"/>
+	<!-- Style css -->
+	<link rel="stylesheet" type="text/css" th:href="@{\stylesheets\style.css}"/>
+	<!-- Font Awesome 4.7.0  css -->
+	<link rel="stylesheet" th:href="@{\vendors\font-awesome\css\font-awesome.css}" />
+</head>
+<body>
+	
+	<!-- navbar -->
+	<nav class="navbar navbar-dark bg-dark">
+		<div class="navbar-brand">
+		
+			<div class="sidebar-btn">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+			
+		</div>
+		
+		<a class="navbar-text navbar-right bg-green" th:href="@{/dashboard/car}">Dashboard</a>
+	</nav> <!-- end navbar -->
+	
+	
+	<!-- sidebar -->
+	<div class="sidebar">
+		
+		<ul class="sidebar-content">
+			<li class="sidebar-content-header">MENU</li>
+			<li class="sidebar-content-item"><a th:href="@{/dashboard/car}"><i class="fa fa-home"> Home</i></a></li>
+			<li class="sidebar-content-item" ><a th:href="@{/dashboard/car/register}"><i class="fa fa-plus"> Register</i></a></li>
+		</ul>
+	</div> <!-- end sidebar -->
+	<br/>	
+	
+	<!-- where the page will be rendered -->
+	<div class="main"
+		layout:fragment="content">
+	</div><!--where the page will be rendered -->
+		
+	<!-- jquery 3.2.1 -->
+	<script type="text/javascript" th:src="@{\vendors\jquery\jquery.js}"></script>
+	<!-- jquery mask 1.7.7 -->
+	<script type="text/javascript" th:src="@{\vendors\jquery.mask.min.js}"></script>
+	<!-- Popper 1.12.3 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<!-- Bootstrap js 4.0.0 beta 2 -->
+	<script type="text/javascript" th:src="@{\vendors\bootstrap\bootstrap.js}"></script>
+	<!-- Sidebar js -->
+	<script type="text/javascript" th:src="@{\javascripts\sidebar.js}"></script>
+	<!-- Script js -->
+	<script type="text/javascript" th:src="@{\javascripts\script.js}"></script>
+</body>
+</html>

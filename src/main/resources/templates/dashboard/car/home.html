@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/layout">
+
+<head>
+	<title>Car Sale - Dashboard</title>
+</head>
+<body>
+
+	<!-- container -->
+	<div layout:fragment="content">
+		
+		<!-- row -->
+		<div class="row">
+			<!-- col -->
+			<div class="col-xs-6 col-sm-7 col-md-8 col-lg-8">
+				 
+				<h2>Car List</h2>
+				
+			</div><!-- end col -->
+			<!-- col -->
+			<div class="col-xs-6 col-sm-5 col-md-4 col-lg-4">
+				<form class="form" method="POST"
+					 th:object="${searchCar}" th:action="@{/dashboard/car/find}">
+					
+					<div class="form-group">
+						<div class="input-group input-group-xs">
+							<input type="text" class="form-input"
+								th:field="*{model}"/>
+							<button class="btn btn-xs btn-success input-group-addon" type="submit">search</button>
+						</div>
+					</div>
+					
+				</form>
+			</div><!-- end col -->
+		</div><!-- end row -->
+		<!-- row -->
+		
+		<br/>
+		
+		<div class="row">
+			<!-- col -->
+			<div class="col-12">
+				<div class="table-responsive">
+					
+					<table class="table table-striped"
+						th:if="${foundCar == null}">
+						<thead class="thead-dark">
+							<tr>
+								<th>Image</th>
+								<th>Id</th>
+								<th>Model</th>
+								<th>CarMaker</th>
+								<th>Price</th>
+								<th>Quantity</th>
+								<th>Edit</th>
+								<th>Delete</th>
+								
+							</tr>
+						</thead>
+						<tbody class="tbody-light">
+							 
+							<tr
+								th:each="car: ${listCar}">
+								
+								<td><img th:alt="${car.model}" th:src="${car.image}" width="50px" height="50px" /> </td>
+								<td th:text="${car.id}"></td>
+					        	<td th:text="${car.model}"></td>
+					        	<td th:text="${car.carmaker}"></td>
+					        	<td th:text="|R$${car.price}|"></td>
+					        	<td th:text="${car.quantity}"></td>
+					        	<td>
+					        		<button type="radio" th:id="'car-update'+${car.id }" name="car-update" th:value="${car.id}" class=" btn btn-info btn-lg" data-toggle="modal" th:attr="data-target='#car-update-'+${car.id}">
+					        			<i class="fa fa-edit" aria-hidden="true"></i>
+					        		</button>
+						        	
+						        	<!-- Modal -->
+						        	<div class="modal fade" th:attr="id='car-update-'+${car.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									  <div class="modal-dialog" role="document">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+									        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									          <span aria-hidden="true">&times;</span>
+									        </button>
+									      </div>
+									      <div class="modal-body">
+									      	<form class="form" method="POST"
+								        		 th:object="${car}" th:action="@{/dashboard/car/update}">
+								        		
+								        		<input type="hidden" name="_method" value="PUT"/>
+								        		<input type="hidden" id="id" name="id" th:value="${car.id}"/>
+								        		
+								        		<div class="form-group">
+													<label for="model">Model</label>
+													<input type="text" id="model" name="model" class="form-input" required="required"
+														th:value="${car.model}"/>
+												</div>
+												
+												<div class="form-group">
+													<label for="carmaker">Carmaker</label>
+													<select id="carmaker" name="carmaker" class="form-input" required="required"
+														th:value="${car.carmaker}">
+														<option 
+															th:value="${car.carmaker}"
+															th:text="${car.carmaker}">select a carmaker</option>
+														<option 
+															th:each="carmaker: ${carmakers}"
+															th:value="${carmaker}"
+															th:text="#{|Carmaker.${carmaker}|}">
+														</option>
+													</select>
+													
+													<div class="form-group">
+														<label for="price">Price</label>
+														<input type="text" id="price" name="price" class="form-input js-field-coin" required="required"
+															th:value="${car.price}"/>
+													</div>
+													
+												</div>
+												
+												<div class="modal-footer">
+											        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											        <button type="submit" class="btn btn-primary">Update</button>
+									      		</div>
+								        	</form> 
+									      </div>      
+									    </div>
+									  </div>
+									</div><!-- end Modal -->
+						        	
+					        	</td>
+					        	
+					        	<td>
+						        	<form class="form" method="POST"
+						        		th:action="@{/dashboard/car/delete/{id}(id=${car.id})}">
+						        		
+						        		<input type="hidden" name="_method" value="DELETE"/>
+						        		<button type="submit" class="btn  btn-lg btn-danger">
+						        			<i class="fa fa-trash"  aria-hidden="true"></i>
+						        		</button>
+						        	</form>
+					        	</td>
+					      	</tr>
+					      	
+						</tbody>
+					</table>
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row -->	
+	</div> <!-- end container -->
+	
+</body>
+</html>

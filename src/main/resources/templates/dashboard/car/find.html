@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/layout">
+
+<head>
+	<title>Car Sale - Dashboard</title>
+</head>
+<body>
+
+	<!-- container -->
+	<div layout:fragment="content">
+		
+		<!-- row -->
+		<div class="row">
+			<!-- col -->
+			<div class="col-xs-6 col-sm-7 col-md-8 col-lg-8">
+				 
+				<h2>Car Found</h2>
+				
+			</div><!-- end col -->
+		</div><!-- end row -->
+		<!-- row -->
+		
+		<br/>
+		
+		<div class="row">
+			<!-- col -->
+			<div class="col-12">
+				<div class="table-responsive">
+					<table class="table table-striped"
+						th:if="${foundCar != null}">
+						
+						<thead class="thead-dark">
+							<tr>
+								<th>Image</th>
+								<th>Id</th>
+								<th>Model</th>
+								<th>CarMaker</th>
+								<th>Price</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody class="tbody-light">
+							
+							<tr 
+								th:each="car: ${foundCar}">
+								
+								<td><img th:alt="${car.model}" th:src="${car.image}" width="50px" height="50px" /> </td>
+								<td th:text="${car.id}"></td>
+					        	<td th:text="${car.model}"></td>
+					        	<td th:text="${car.carmaker}"></td>
+					        	<td th:text="|R$${car.price}|"></td>
+					        	<td th:text="${car.quantity}"></td>
+					      	</tr>
+					      	
+						</tbody>
+					</table>
+					
+					<div>
+						<a th:href="@{/dashboard}"><button class="btn btn-success">Back</button></a>
+					</div>
+					
+				</div>
+			</div> <!-- end col -->
+		</div> <!-- end row -->	
+	</div> <!-- end container -->
+		
+</body>
+</html>
