@@ -21,7 +21,6 @@ public class Car {
 	@NotBlank
 	private String model;
 	
-	
 	private String image;
 	
 	@NotNull
@@ -58,7 +57,6 @@ public class Car {
 		this.image = image;
 	}
 
-	
 	public Carmaker getCarmaker() {
 		return carmaker;
 	}

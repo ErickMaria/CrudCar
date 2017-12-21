@@ -32,18 +32,30 @@
 							
 							<!-- col -->
 							<div class="col-6">
-								<!-- div alert success -->
+							
+								<!-- div alert success save car -->
 								<div class="alert alert-success alert-dismissible fade show" role="alert"
-									th:if="${!#strings.isEmpty(message)}">
+									th:if="${!#strings.isEmpty(success_message)}">
 									
 								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								    <span aria-hidden="true">&times;</span>
 								  </button>
 								  
-								  <span th:text="${message}"></span>
-								</div><!-- end div alert success -->
+								  <span th:text="${success_message}"></span>
+								</div><!-- end div alert success save car -->
 								
-								<!-- div alert danger -->
+								<!-- div alert fail upload image -->
+								<div class="alert alert-danger alert-dismissible fade show" role="alert"
+									th:if="${!#strings.isEmpty(fail_message)}">
+									
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								  
+								  <span th:text="${fail_message}"></span>
+								</div><!-- end div alert fail upload image -->
+								
+								<!-- div alert danger errors -->
 								<div class="alert alert-danger alert-dismissible fade show" role="alert" 
 									th:if="${#fields.hasAnyErrors()}">
 									
@@ -55,7 +67,7 @@
 								  	
 								  	<span th:text="${erro.message}"></span>
 								  </div>
-								</div><!-- end div alert danger -->
+								</div><!-- end div alert danger errors -->
 							</div><!-- end col -->
 						</div><!-- end row -->
 						
@@ -91,7 +103,7 @@
 						
 						<div class="form-group">
 							<label for="quantity">Quantity</label>
-							<input type="text" id="quantity" class="form-input js-field-coin"
+							<input type="text" id="quantity" class="form-input"
 								th:field="*{quantity}"/>
 						</div>
 						

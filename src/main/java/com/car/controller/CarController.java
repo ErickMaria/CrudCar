@@ -1,5 +1,6 @@
 package com.car.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,10 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/dashboard/car")
 public class CarController {
-	private static final String DEFAULT_DIR = "\\images\\cars\\";
-	private static final String UPLOADED_DIR = "C:\\Users\\User\\eclipse-workspace\\CarSaleSpringMVC\\src\\main\\resources\\static" + DEFAULT_DIR;
-	private static final String UPLOADED_DEFAULT_DIR = "\\images\\defalut\\default_img.png";
 	
+	private static final String DEFAULT_DIR = "\\images\\cars\\";
+	private static final String UPLOAD_DIR = "C:\\Users\\User\\eclipse-workspace\\CrudCarSpringMVC\\src\\main\\resources\\static";
+	private static final String UPLOAD_DEFAULT_IMG = "\\images\\defalut\\no_image.png";
 	
 	@Autowired
 	private CarRepository cars;
@@ -65,7 +66,7 @@ public class CarController {
 		}
 		
 		if(image.isEmpty()) {
-			car.setImage(UPLOADED_DEFAULT_DIR);
+			car.setImage(UPLOAD_DEFAULT_IMG);
 		}
 		
 		try {
@@ -73,19 +74,19 @@ public class CarController {
 			if(car.getImage() == null) {
 			
 				byte[] bytes = image.getBytes();
-	            Path path = Paths.get( UPLOADED_DIR + car.getModel() + image.getOriginalFilename());
+	            Path path = Paths.get( UPLOAD_DIR + DEFAULT_DIR + car.getModel() + image.getOriginalFilename());
 	            Files.write(path, bytes);
 	            car.setImage(DEFAULT_DIR + car.getModel() + image.getOriginalFilename());
 			}
 			
             this.cars.save(car);
 
-    		attribute.addFlashAttribute("message", "Car save sucessefull");
+    		attribute.addFlashAttribute("success_message", "Car save sucessefull");
 
     		return new ModelAndView("redirect:/dashboard/car/register");
 			
 		}catch(IOException ex) {
-			attribute.addFlashAttribute("message", "Error at upoload image");
+			attribute.addFlashAttribute("fail_message", "Error at upoload image");
 			return new ModelAndView("redirect:/dashboard/car/register");
 		}
 		
@@ -106,17 +107,54 @@ public class CarController {
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ModelAndView delete(@PathVariable("id") Long id) {
-
+		
+		Car car = cars.findOne(id);
+		
+		File image = new File( UPLOAD_DIR + car.getImage());
+		
+		if(image.exists() && !car.getImage().equals(UPLOAD_DEFAULT_IMG)) {
+			image.delete();
+		}
+		
 		cars.delete(id);
-
-		return new ModelAndView("redirect:/dashboard");
+		
+		return new ModelAndView("redirect:/dashboard/car");
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public ModelAndView update(Car car) {
-
-		cars.save(car);
-
-		return new ModelAndView("redirect:/dashboard");
+	public String update(@RequestParam("imageFile") MultipartFile image, Car car) {
+		
+		
+		//Not Working
+		
+		boolean flag = false;
+		Car fCar = cars.findOne(car.getId());
+		
+		File fImage = new File( UPLOAD_DIR + fCar.getImage());
+		
+		if(fImage.exists() && !image.getOriginalFilename().equals(UPLOAD_DEFAULT_IMG)) {
+			fImage.delete();
+			flag = true;
+		}
+		
+		try {
+			
+			if(flag && !fCar.getImage().equals(image.getOriginalFilename())) {
+			
+			byte[] bytes = image.getBytes();
+		    Path path = Paths.get( UPLOAD_DIR + DEFAULT_DIR + car.getModel() + image.getOriginalFilename());
+		    Files.write(path, bytes);
+		    car.setImage(DEFAULT_DIR + car.getModel() + image.getOriginalFilename());
+		    
+			}
+			
+			this.cars.save(car);
+		    return new ModelAndView("redirect:/dashboard/car");
+			
+		}catch(IOException ex) {
+			return new ModelAndView("redirect:/dashboard/car");
+		}
+		
 	}
+
 }
