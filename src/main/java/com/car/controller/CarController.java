@@ -122,24 +122,21 @@ public class CarController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public String update(@RequestParam("imageFile") MultipartFile image, Car car) {
+	public ModelAndView update(@RequestParam("imageFile") MultipartFile image, Car car) {
 		
-		
-		//Not Working
-		
-		boolean flag = false;
 		Car fCar = cars.findOne(car.getId());
 		
 		File fImage = new File( UPLOAD_DIR + fCar.getImage());
 		
-		if(fImage.exists() && !image.getOriginalFilename().equals(UPLOAD_DEFAULT_IMG)) {
-			fImage.delete();
-			flag = true;
+		if(fImage.exists()) {
+			if(!car.getImage().equals(UPLOAD_DEFAULT_IMG) && !image.getOriginalFilename().isEmpty()) {
+				fImage.delete();
+			}
 		}
 		
 		try {
 			
-			if(flag && !fCar.getImage().equals(image.getOriginalFilename())) {
+			if(!fCar.getImage().equals(DEFAULT_DIR + car.getModel() + image.getOriginalFilename()) && !image.getOriginalFilename().isEmpty()) {
 			
 			byte[] bytes = image.getBytes();
 		    Path path = Paths.get( UPLOAD_DIR + DEFAULT_DIR + car.getModel() + image.getOriginalFilename());
@@ -149,12 +146,13 @@ public class CarController {
 			}
 			
 			this.cars.save(car);
-		    return new ModelAndView("redirect:/dashboard/car");
+		    
 			
 		}catch(IOException ex) {
 			return new ModelAndView("redirect:/dashboard/car");
 		}
 		
+		return new ModelAndView("redirect:/dashboard/car");
 	}
 
 }

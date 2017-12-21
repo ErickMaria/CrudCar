@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout/layout">
+
+<head>
+	<title>Car - Dashboard - Tests</title>
+</head>
+<body>
+
+	<!-- container -->
+	<div layout:fragment="content">
+		
+		<h3>MulipartFile Image</h3>
+		<div
+			th:text="${Mpfimage}">
+		</div>
+		
+		<h3>Path Image</h3>
+		<div
+			th:text="${pathImage}">
+		</div>
+			
+	</div> <!-- end container -->
+		
+</body>
+</html>

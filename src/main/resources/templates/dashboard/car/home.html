@@ -104,8 +104,9 @@
 												<div class="form-group">
 													<label for="image">Image</label>
 													<input type="file" id="imageFile" name="imageFile" class="form-input"
-														th:text="${car.image}"
-														th:value="${car.image}"/>
+														th:text="${car.image}"/>
+														
+													<input type="hidden" id="image" name="image" th:value="${car.image}"/>
 												</div>
 																		
 												<div class="form-group">
